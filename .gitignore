@@ -43,3 +43,6 @@
 *.tex
 *.aux
 *.log
+
+# Rhistory
+*.Rhistory
