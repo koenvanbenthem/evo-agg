@@ -32,5 +32,5 @@
 *.app
 
 # pdfs
-.pdf
-.tex
+*.pdf
+*.tex
