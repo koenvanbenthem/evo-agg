@@ -186,18 +186,20 @@ void population::fight(int curr_loc){
 }
 
 void population::duel(int i,int j){
-  bool fight1 = ((double) rand()/ (RAND_MAX)) < indivs[i].retrieve_agr();
-  bool fight2 = ((double) rand()/ (RAND_MAX)) < indivs[j].retrieve_agr();
-  double outcome = ((double) rand()/RAND_MAX);
-  if(fight1 && fight2){
-    indivs[i].alive = outcome > 0.5;
-    indivs[j].alive = outcome < 0.5;
-  }else if((fight1 && outcome < 0.8) || (fight2 && outcome > 0.8)){
+  double mean_ag = (indivs[i].retrieve_agr() + indivs[j].retrieve_agr())/2.0;
+  double p_i_wins = 0.0;
+  if(mean_ag > 0.0){
+    p_i_wins = indivs[i].retrieve_agr() / (2.0*mean_ag);
+  }
+  bool fight_happens = ((double) rand()/ (RAND_MAX)) < mean_ag;
+  bool i_wins = ((double) rand()/ (RAND_MAX)) < p_i_wins;
+
+  if(fight_happens && i_wins){
     indivs[i].alive = true;
     indivs[j].alive = false;
-  }else if((fight2 && outcome < 0.8) || (fight1 && outcome > 0.8)){
-    indivs[j].alive = true;
+  }else if(fight_happens && !i_wins){
     indivs[i].alive = false;
+    indivs[j].alive = true;;
   }else{
     indivs[i].alive = true;
     indivs[j].alive = true;
