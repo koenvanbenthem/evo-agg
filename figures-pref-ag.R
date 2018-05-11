@@ -1,7 +1,7 @@
-setwd("/home/bio23user/Documents/Projects/fig-wasps/cpp_version/simuls/")
+setwd("/home/bio23user/Documents/Projects/evo-agg/")
 
 
-draws <- expand.grid(ag = c(0.45),npop=c(500),nfights=c(1))
+draws <- expand.grid(ag = c(0.45,0.55),npop=c(500),nfights=c(1))
 Nt <- 1e5
 numrep <- 10
 draws$filename <- paste("cpp_sims/file",1:nrow(draws),sep="")
@@ -10,7 +10,7 @@ for(i in 1:nrow(draws)){
   with(draws[i,],system(paste("./main",filename,npop,nfights,numrep,ag,format(Nt,scientific=FALSE))))
 }
 
-pdf("plots.pdf")
+pdf("plots-mean.pdf")
 for(j in 1:nrow(draws)){
   filename <- draws[j,'filename']
   ag <- read.csv(paste(filename,'.ag',sep=""),header=FALSE)
