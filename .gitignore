@@ -38,6 +38,8 @@
 *.out
 *.app
 
-# pdfs
+# tex / pdfs
 *.pdf
 *.tex
+*.aux
+*.log
