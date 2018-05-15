@@ -20,8 +20,8 @@ public:
   void mut_agr(double);
   void set_pref(double);
   void mut_pref(double);
-  double retrieve_agr();
-  double retrieve_pref();
+  double get_agr();
+  double get_pref();
 };
 
 class population{

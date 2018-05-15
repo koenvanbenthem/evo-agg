@@ -21,7 +21,7 @@ double population::mean_agg(){
   int totnum = indivs.size();
 
   for(int i=0; i<indivs.size();i++){
-    mean_val+= indivs[i].retrieve_agr()/((double) totnum);
+    mean_val+= indivs[i].get_agr()/((double) totnum);
   }
 
   return(mean_val);
@@ -32,7 +32,7 @@ double population::mean_pref(){
   int totnum = indivs.size();
 
   for(int i = 0; i < indivs.size(); i++){
-    mean_val += indivs[i].retrieve_pref()/((double) totnum);
+    mean_val += indivs[i].get_pref()/((double) totnum);
   }
   return(mean_val);
 }
@@ -51,7 +51,7 @@ double population::mean_agg(int site){
 
   for(int i = 0; i < indivs.size(); i++){
     if(indivs[i].loc == site){
-      mean_val += indivs[i].retrieve_agr()/((double) totnum);
+      mean_val += indivs[i].get_agr()/((double) totnum);
     }
   }
   return(mean_val);
@@ -71,7 +71,7 @@ double population::mean_pref(int site){
 
   for(int i = 0; i < indivs.size(); i++){
     if(indivs[i].loc == site){
-      mean_val += indivs[i].retrieve_pref()/((double) totnum);
+      mean_val += indivs[i].get_pref()/((double) totnum);
     }
   }
   return(mean_val);
@@ -85,7 +85,7 @@ void population::add(double agg, double pref){
 void population::disperse(){
   for(int i =0; i<num_ind; i++){
     double tmp = ((double) rand()/RAND_MAX);
-    indivs[i].loc = (int) (indivs[i].retrieve_pref() > tmp);
+    indivs[i].loc = (int) (indivs[i].get_pref() > tmp);
   }
 }
 
@@ -102,7 +102,7 @@ void population::mutate(){
     }
 
     if(tmp2 < 0.001){
-      indivs[i].mut_pref(distribution(generator));
+      indivs[i].set_pref(1.0-indivs[i].get_pref());//mut_pref(distribution(generator));
     }
   }
 
@@ -186,10 +186,10 @@ void population::fight(int curr_loc){
 }
 
 void population::duel(int i,int j){
-  double mean_ag = (indivs[i].retrieve_agr() + indivs[j].retrieve_agr())/2.0;
+  double mean_ag = (indivs[i].get_agr() + indivs[j].get_agr())/2.0;
   double p_i_wins = 0.0;
   if(mean_ag > 0.0){
-    p_i_wins = indivs[i].retrieve_agr() / (2.0*mean_ag);
+    p_i_wins = indivs[i].get_agr() / (2.0*mean_ag);
   }
   bool fight_happens = ((double) rand()/ (RAND_MAX)) < mean_ag;
   bool i_wins = ((double) rand()/ (RAND_MAX)) < p_i_wins;
@@ -236,10 +236,10 @@ void wasp::mut_pref(double value){
   set_pref(niche_pref + value);
 }
 
-double wasp::retrieve_agr(){
+double wasp::get_agr(){
   return(agressiveness);
 }
 
-double wasp::retrieve_pref(){
+double wasp::get_pref(){
   return(niche_pref);
 }
