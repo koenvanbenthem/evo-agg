@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include "mod.hpp"
+#include "svgplot.hpp"
+//#include <plstream>
 //#include <boost>
 using namespace std;
 
@@ -48,6 +50,8 @@ int main(int argc, char **argv)
   file_pref.open(file_pref_name);
   file_pref1.open(file_pref1_name);
   file_pref2.open(file_pref2_name);
+
+  plot targetplot("testplot.svg");
   
   srand(time(NULL));
  

@@ -144,7 +144,8 @@ void population::reproduce(){
 	  // pick random parent
 	  int parent = ind_alive[rand()%num_alive];
 	  // copy info
-	  //std::cout << indivs[i].retrieve_agr() << "\t" << indivs[parent].retrieve_agr() << "\t" << surv[i] << "\t" << surv[parent] << std::endl;
+	  //std::cout << indivs[i].retri
+	  //eve_agr() << "\t" << indivs[parent].retrieve_agr() << "\t" << surv[i] << "\t" << surv[parent] << std::endl;
 	  std::copy(&indivs[parent],&indivs[parent+1],&indivs[i]);
 	  //std::cout <<  indivs[i].retrieve_agr() << "\t" << indivs[parent].retrieve_agr() << std::endl << std::endl;
 
