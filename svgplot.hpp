@@ -22,6 +22,7 @@ public:
   std::vector<panel> panels;
   void add_panel(double xmin, double xmax, double ymin, double ymax, double c_xmin, double c_ymin, double c_width, double c_height, std::string title);
   void write_panel_header(double xmin, double xmax, double ymin, double ymax, double c_xmin, double c_ymin, double c_width, double c_height, std::string title);
+  void add_line_to_panel(double* data,int length, int panel);
   void print();
   std::ofstream file;
   void write_header();
