@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     N = 100;
     N_t = 1e5;
     N_fights = 1;
-    replicates = 1;
+    replicates = 2;
     init_ag = 0.5;
     base_file = "testfile";
   } else {
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
     init_ag = atof(argv[5]);
     base_file = argv[1];
   }
-
+  cout << SIZE_MAX << "\t"  << sizeof(double) << endl;
   double overall_agr[N_t];
   double patch1_agr[N_t];
   double patch2_agr[N_t];
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
   file_pref2.open(file_pref2_name);
 
   srand(time(NULL));
- 
+  
   for(int k =0; k<replicates; k++){
     population full_pop(N,init_ag,0.5);
   
@@ -71,14 +71,13 @@ int main(int argc, char **argv)
       }
       //cout << endl<<endl;
       full_pop.reproduce();
-      full_pop.mutate();
       file_ag << full_pop.mean_agg();
       file_ag1 << full_pop.mean_agg(0);
       file_ag2 << full_pop.mean_agg(1);
       file_pref << full_pop.mean_pref();
       file_pref1 << full_pop.mean_pref(0);
       file_pref2 << full_pop.mean_pref(1);
-
+      
       overall_agr[i] = full_pop.mean_agg();
       patch1_agr[i] = full_pop.mean_agg(0);
       patch2_agr[i] = full_pop.mean_agg(1);
@@ -95,9 +94,14 @@ int main(int argc, char **argv)
 	file_pref1 << ",";
 	file_pref2 << ",";
       }
+      
+      full_pop.mutate(); 
     }
-  
-    plot targetplot("testplot.svg",0,N_t,0,1);
+    
+    string plotfile = base_file;
+    plotfile.append(std::to_string(k));
+    plotfile.append(".svg");
+    plot targetplot(plotfile,0,N_t,0,1);
     targetplot.add_line_to_panel(overall_agr,N_t,0,"black");  
     targetplot.add_line_to_panel(patch1_agr,N_t,1,"black");
     targetplot.add_line_to_panel(patch2_agr,N_t,2,"black");
@@ -112,15 +116,6 @@ int main(int argc, char **argv)
     file_pref << endl;
     file_pref1 << endl;
     file_pref2 << endl;
-    //cout << full_pop.mean_agg() << "\t";
-    //cout << full_pop.mean_pref() << endl;
-
-    /*for(int i=0; i<full_pop.num_ind; i++){
-      cout << full_pop.indivs[i].retrieve_agr() << endl;
-      }*/
-    //cout << endl << endl;
-    //full_pop.fight();
-    			     //cout << one.retrieve( );
     }
     file_ag.close();
     file_ag1.close();

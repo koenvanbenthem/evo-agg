@@ -4,8 +4,8 @@ population::population(int num,double agg,double pref){
   num_ind = num;
   for(int i=0; i<num; i++){
     double tmp = ((double) rand()/(RAND_MAX));
-    double newpref = ((double) tmp > 0.2);
-    double newag = 0.05 + 0.9*((double) tmp < 0.2);
+    double newpref = ((double) tmp > 0.18);
+    double newag = 0.35 + 0.3*((double) tmp < 0.2);
     add(newag,newpref);
   }
   return;
@@ -101,7 +101,8 @@ void population::mutate(){
       indivs[i].mut_agr(distribution(generator));
     }
 
-    if(tmp2 < 0.001){
+    if(tmp2 < 0.000001){
+      
       indivs[i].set_pref(1.0-indivs[i].get_pref());//mut_pref(distribution(generator));
     }
   }
@@ -189,8 +190,9 @@ void population::fight(int curr_loc){
 void population::duel(int i,int j){
   double mean_ag = (indivs[i].get_agr() + indivs[j].get_agr())/2.0;
   double p_i_wins = 0.0;
+  double pwin =0.97;
   if(mean_ag > 0.0){
-    p_i_wins = indivs[i].get_agr() / (2.0*mean_ag);
+    p_i_wins = 0.5 + (indivs[i].get_agr()- indivs[j].get_agr())*(pwin-0.5);
   }
   bool fight_happens = ((double) rand()/ (RAND_MAX)) < mean_ag;
   bool i_wins = ((double) rand()/ (RAND_MAX)) < p_i_wins;
