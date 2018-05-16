@@ -7,9 +7,9 @@ plot::plot(std::string filename){
   num_panels = 3;
   file.open(filename);
   write_header();
-  add_panel(0.0,1e5,0.0,1.0,1.5,2.0,8.0,17.0,"Overall");
-  add_panel(0.0,1e5,0.0,1.0,11.5,2.0,8.0,17.0,"Patch 1");
-  add_panel(0.0,1e5,0.0,1.0,21.5,2.0,8.0,17.0,"Patch 2");
+  add_panel(0.0,5,0.0,1.0,1.5,2.0,8.0,17.0,"Overall");
+  add_panel(0.0,5,0.0,1.0,11.5,2.0,8.0,17.0,"Patch 1");
+  add_panel(0.0,5,0.0,1.0,21.5,2.0,8.0,17.0,"Patch 2");
 }
 
 plot::~plot(){
@@ -81,9 +81,9 @@ panel::~panel(){
 void panel::add_line(double* data, int length, std::ofstream& file){
   file << "<path d =\"M" << dat_to_x(0) <<" " << dat_to_y(data[0]);
   for(int i = 1; i < (length); i++){
-    file << " L" << dat_to_x(i) << " " << dat_to_y(data[0]);
+    file << " L" << dat_to_x(i) << " " << dat_to_y(data[i]);
   }
-  file << " stroke=\"black\" stroke-width=\"3\" />\n\n";
+  file << "\" stroke=\"black\" stroke-width=\"1\" />\n\n";
 }
 
 double panel::dat_to_x(double x){
@@ -93,6 +93,6 @@ double panel::dat_to_x(double x){
 }
 
 double panel::dat_to_y(double y){
-  double temp = canvas_lims[2] + (canvas_lims[3]-canvas_lims[2])*(y - content_lims[2])/(content_lims[3] - content_lims[2]);
+  double temp = canvas_lims[3] - (canvas_lims[3]-canvas_lims[2])*(y - content_lims[2])/(content_lims[3] - content_lims[2]);
   return(temp);
 }

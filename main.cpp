@@ -52,7 +52,8 @@ int main(int argc, char **argv)
   file_pref2.open(file_pref2_name);
 
   plot targetplot("testplot.svg");
-  
+  double data[5] = {0.1,0.2,0.1,0.3,0.9};
+  targetplot.add_line_to_panel(data,5,0);
   srand(time(NULL));
  
   for(int k =0; k<replicates; k++){
