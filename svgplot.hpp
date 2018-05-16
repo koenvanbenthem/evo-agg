@@ -14,6 +14,9 @@ public:
   int num;
   panel();
   ~panel();
+  void add_line(double* data, int length, std::ofstream& file);
+  double dat_to_x(double x);
+  double dat_to_y(double y);
 };
   
 class plot{

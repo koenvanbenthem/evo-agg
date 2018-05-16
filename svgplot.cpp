@@ -47,20 +47,20 @@ void plot::write_panel_header(double xmin, double xmax, double ymin, double ymax
 
 void plot::add_panel(double xmin, double xmax, double ymin, double ymax, double c_xmin, double c_ymin, double c_width, double c_height,std::string title){
   panel new_panel;
-  content_lims[0] = xmin;
-  content_lims[1] = xmax;
-  content_lims[2] = ymin;
-  content_lims[3] = ymax;
-  canvas_lims[0] = c_xmin*pixels_per_cm;
-  canvas_lims[1] = (c_xmin + c_width)*pixels_per_cm;
-  canvas_lims[2] = c_ymin*pixels_per_cm;
-  canvas_lims[3] = (c_ymin + c_height)*pixels_per_cm;
+  new_panel.content_lims[0] = xmin;
+  new_panel.content_lims[1] = xmax;
+  new_panel.content_lims[2] = ymin;
+  new_panel.content_lims[3] = ymax;
+  new_panel.canvas_lims[0] = c_xmin*pixels_per_cm;
+  new_panel.canvas_lims[1] = (c_xmin + c_width)*pixels_per_cm;
+  new_panel.canvas_lims[2] = c_ymin*pixels_per_cm;
+  new_panel.canvas_lims[3] = (c_ymin + c_height)*pixels_per_cm;
   panels.push_back(new_panel);
   write_panel_header(xmin,xmax,ymin, ymax,c_xmin,c_ymin,c_width,c_height,title);
 }
 
 void plot::add_line_to_panel(double* data, int length,int panel){
-  panels[panel].add_line(double* data, int length, ofstream& file);
+  panels[panel].add_line(data, length, file);
 }
 
 void plot::write_tail(){
@@ -78,21 +78,21 @@ panel::~panel(){
 //free(canvas_lims);
 }
 
-panel::add_line(double* data, int length, ofstream& file){
+void panel::add_line(double* data, int length, std::ofstream& file){
   file << "<path d =\"M" << dat_to_x(0) <<" " << dat_to_y(data[0]);
   for(int i = 1; i < (length); i++){
     file << " L" << dat_to_x(i) << " " << dat_to_y(data[0]);
   }
-  file << "\ />\n\n";
+  file << " stroke=\"black\" stroke-width=\"3\" />\n\n";
 }
 
-panel::dat_to_x(double x){
+double panel::dat_to_x(double x){
   double temp = canvas_lims[0] + (canvas_lims[1]-canvas_lims[0])*(x - content_lims[0])/(content_lims[1] - content_lims[0]);
 
   return(temp);
 }
 
-panel::dat_to_y(double y){
+double panel::dat_to_y(double y){
   double temp = canvas_lims[2] + (canvas_lims[3]-canvas_lims[2])*(y - content_lims[2])/(content_lims[3] - content_lims[2]);
   return(temp);
 }
