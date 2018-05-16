@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     cout << "not enough arguments passed! Default values will be used!" <<endl;
     //    exit(1);
     N = 100;
-    N_t = 100;
+    N_t = 1e5;
     N_fights = 1;
     replicates = 1;
     init_ag = 0.5;
@@ -30,6 +30,13 @@ int main(int argc, char **argv)
     init_ag = atof(argv[5]);
     base_file = argv[1];
   }
+
+  double overall_agr[N_t];
+  double patch1_agr[N_t];
+  double patch2_agr[N_t];
+  double overall_pref[N_t];
+  double patch1_pref[N_t];
+  double patch2_pref[N_t];
   file_ag_name = base_file;
   file_ag1_name = base_file;
   file_ag2_name = base_file;
@@ -51,9 +58,6 @@ int main(int argc, char **argv)
   file_pref1.open(file_pref1_name);
   file_pref2.open(file_pref2_name);
 
-  plot targetplot("testplot.svg",0,4,0,1);
-  double data[5] = {0.1,0.2,0.1,0.3,0.9};
-  targetplot.add_line_to_panel(data,5,0,"red");
   srand(time(NULL));
  
   for(int k =0; k<replicates; k++){
@@ -74,6 +78,15 @@ int main(int argc, char **argv)
       file_pref << full_pop.mean_pref();
       file_pref1 << full_pop.mean_pref(0);
       file_pref2 << full_pop.mean_pref(1);
+
+      overall_agr[i] = full_pop.mean_agg();
+      patch1_agr[i] = full_pop.mean_agg(0);
+      patch2_agr[i] = full_pop.mean_agg(1);
+
+      overall_pref[i] = full_pop.mean_pref();
+      patch1_pref[i] = full_pop.mean_pref(0);
+      patch2_pref[i] = full_pop.mean_pref(1);
+      
       if(i < N_t -1){
 	file_ag << ",";
 	file_ag1 << ",";
@@ -83,6 +96,15 @@ int main(int argc, char **argv)
 	file_pref2 << ",";
       }
     }
+  
+    plot targetplot("testplot.svg",0,N_t,0,1);
+    targetplot.add_line_to_panel(overall_agr,N_t,0,"black");  
+    targetplot.add_line_to_panel(patch1_agr,N_t,1,"black");
+    targetplot.add_line_to_panel(patch2_agr,N_t,2,"black");
+  
+    targetplot.add_line_to_panel(overall_pref,N_t,0,"red");  
+    targetplot.add_line_to_panel(patch1_pref,N_t,1,"red");
+    targetplot.add_line_to_panel(patch2_pref,N_t,2,"red");
     
     file_ag << endl;
     file_ag1 << endl;

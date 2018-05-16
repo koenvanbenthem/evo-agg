@@ -81,7 +81,9 @@ panel::~panel(){
 void panel::add_line(double* data, int length, std::ofstream& file,std::string col){
   file << "<path d =\"M" << dat_to_x(0) <<" " << dat_to_y(data[0]);
   for(int i = 1; i < (length); i++){
-    file << " L" << dat_to_x(i) << " " << dat_to_y(data[i]);
+    if(i >= content_lims[0] && i <=content_lims[1]){ 
+      file << " L" << dat_to_x(i) << " " << dat_to_y(data[i]);
+     }
   }
   file << "\" fill-opacity=\"0.0\" stroke=\""<< col << "\" stroke-width=\"1\" />\n\n";
 }
