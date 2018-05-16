@@ -7,6 +7,14 @@
 # Unignore all with extensions
 !*.*
 
+# buffers
+*~
+
+# output files
+*.ag*
+*.pr*
+*.svg
+
 # Prerequisites
 *.d
 
