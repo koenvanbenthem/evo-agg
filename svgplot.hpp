@@ -14,7 +14,7 @@ public:
   int num;
   panel();
   ~panel();
-  void add_line(double* data, int length, std::ofstream& file);
+  void add_line(double* data, int length, std::ofstream& file, std::string col);
   double dat_to_x(double x);
   double dat_to_y(double y);
 };
@@ -25,12 +25,12 @@ public:
   std::vector<panel> panels;
   void add_panel(double xmin, double xmax, double ymin, double ymax, double c_xmin, double c_ymin, double c_width, double c_height, std::string title);
   void write_panel_header(double xmin, double xmax, double ymin, double ymax, double c_xmin, double c_ymin, double c_width, double c_height, std::string title);
-  void add_line_to_panel(double* data,int length, int panel);
+  void add_line_to_panel(double* data,int length, int panel,std::string col);
   void print();
   std::ofstream file;
   void write_header();
   void write_tail();
-  plot(std::string filename);
+  plot(std::string filename, double xmin, double xmax, double ymin, double ymax);
   ~plot();
 };
 

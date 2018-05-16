@@ -3,13 +3,13 @@
 #include <fstream>
 #include <stdlib.h>
 
-plot::plot(std::string filename){
+plot::plot(std::string filename, double xmin, double xmax, double ymin, double ymax){
   num_panels = 3;
   file.open(filename);
   write_header();
-  add_panel(0.0,5,0.0,1.0,1.5,2.0,8.0,17.0,"Overall");
-  add_panel(0.0,5,0.0,1.0,11.5,2.0,8.0,17.0,"Patch 1");
-  add_panel(0.0,5,0.0,1.0,21.5,2.0,8.0,17.0,"Patch 2");
+  add_panel(xmin,xmax,ymin,ymax,1.5,2.0,8.0,17.0,"Overall");
+  add_panel(xmin,xmax,ymin,ymax,11.5,2.0,8.0,17.0,"Patch 1");
+  add_panel(xmin,xmax,ymin,ymax,21.5,2.0,8.0,17.0,"Patch 2");
 }
 
 plot::~plot(){
@@ -59,8 +59,8 @@ void plot::add_panel(double xmin, double xmax, double ymin, double ymax, double 
   write_panel_header(xmin,xmax,ymin, ymax,c_xmin,c_ymin,c_width,c_height,title);
 }
 
-void plot::add_line_to_panel(double* data, int length,int panel){
-  panels[panel].add_line(data, length, file);
+void plot::add_line_to_panel(double* data, int length,int panel,std::string col){
+  panels[panel].add_line(data, length, file,col);
 }
 
 void plot::write_tail(){
@@ -78,12 +78,12 @@ panel::~panel(){
 //free(canvas_lims);
 }
 
-void panel::add_line(double* data, int length, std::ofstream& file){
+void panel::add_line(double* data, int length, std::ofstream& file,std::string col){
   file << "<path d =\"M" << dat_to_x(0) <<" " << dat_to_y(data[0]);
   for(int i = 1; i < (length); i++){
     file << " L" << dat_to_x(i) << " " << dat_to_y(data[i]);
   }
-  file << "\" stroke=\"black\" stroke-width=\"1\" />\n\n";
+  file << "\" fill-opacity=\"0.0\" stroke=\""<< col << "\" stroke-width=\"1\" />\n\n";
 }
 
 double panel::dat_to_x(double x){
